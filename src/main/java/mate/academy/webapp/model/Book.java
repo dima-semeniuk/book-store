@@ -1,4 +1,4 @@
-package mate.academy.introhw.model;
+package mate.academy.webapp.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,7 @@ public class Book {
     private Long id;
 
     @Column(nullable = false)
-    private String tittle;
+    private String title;
 
     @Column(nullable = false)
     private String author;

@@ -1,23 +1,20 @@
-package mate.academy.introhw.repository.impl;
+package mate.academy.webapp.repository.impl;
 
 import java.util.List;
-import mate.academy.introhw.model.Book;
-import mate.academy.introhw.repository.BookRepository;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import mate.academy.webapp.model.Book;
+import mate.academy.webapp.repository.BookRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@RequiredArgsConstructor
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public BookRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Book save(Book book) {
@@ -42,7 +39,17 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> findAll() {
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Book book = session.get(Book.class, id);
+            return Optional.ofNullable(book);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't find Book by id: " + id, e);
+        }
+    }
+
+    @Override
+    public List<Book> getAll() {
         try (Session session = sessionFactory.openSession()) {
             Query<Book> getAllBooks = session.createQuery("FROM Book", Book.class);
             return getAllBooks.getResultList();
