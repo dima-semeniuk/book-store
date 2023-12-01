@@ -107,7 +107,7 @@
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
-                            <artifact>lombok-mapstruct-binding</artifact>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
                             <version>${lombok.mapstruct.binding.version}</version>
                         </path>
                         <path>
