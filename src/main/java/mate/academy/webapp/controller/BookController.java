@@ -29,7 +29,7 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto bookDto(@RequestBody CreateBookRequestDto requestDto) {
+    public BookDto createBook(@RequestBody CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 }
