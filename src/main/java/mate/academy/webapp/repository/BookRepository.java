@@ -1,13 +1,20 @@
 package mate.academy.webapp.repository;
 
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
 import mate.academy.webapp.model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface BookRepository {
-    Book save(Book book);
+public interface BookRepository extends JpaRepository<Book, Long> {
 
-    Optional<Book> findById(Long id);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Book b SET b.title = ?1, b.author = ?2, "
+            + "b.isbn = ?3, b.price = ?4, b.description = ?5, "
+            + "b.coverImage = ?6 WHERE b.id = ?7")
+    void updateBookById(String title, String author, String isbn, BigDecimal price,
+                        String description, String coverImage, Long id);
 
-    List<Book> getAll();
 }
