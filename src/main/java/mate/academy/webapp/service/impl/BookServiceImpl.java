@@ -45,9 +45,7 @@ public class BookServiceImpl implements BookService {
         );
         Book book = bookMapper.toModel(requestDto);
         book.setId(id);
-        bookRepository.updateBookById(book.getTitle(), book.getAuthor(),
-                book.getIsbn(), book.getPrice(), book.getDescription(),
-                book.getCoverImage(), book.getId());
+        bookRepository.save(book);
         return bookMapper.toDto(book);
     }
 
