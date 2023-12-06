@@ -10,6 +10,7 @@ import mate.academy.webapp.model.Book;
 import mate.academy.webapp.repository.BookRepository;
 import mate.academy.webapp.service.BookService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -39,6 +40,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional()
     public BookDto update(Long id, CreateBookRequestDto requestDto) {
         Book bookFromDb = bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Can't find book by id: " + id)
