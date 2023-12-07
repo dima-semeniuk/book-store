@@ -2,6 +2,7 @@ package mate.academy.webapp.service;
 
 import java.util.List;
 import mate.academy.webapp.dto.BookDto;
+import mate.academy.webapp.dto.BookSearchParametersDto;
 import mate.academy.webapp.dto.CreateBookRequestDto;
 
 public interface BookService {
@@ -14,4 +15,6 @@ public interface BookService {
     BookDto update(Long id, CreateBookRequestDto requestDto);
 
     void delete(Long id);
+
+    List<BookDto> searchBooks(BookSearchParametersDto searchParameters);
 }
