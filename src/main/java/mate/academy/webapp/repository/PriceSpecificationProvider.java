@@ -1,4 +1,4 @@
-package mate.academy.webapp.repository.bookspecification;
+package mate.academy.webapp.repository;
 
 import java.math.BigDecimal;
 import org.springframework.data.jpa.domain.Specification;

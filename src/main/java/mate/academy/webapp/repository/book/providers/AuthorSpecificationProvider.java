@@ -1,7 +1,8 @@
-package mate.academy.webapp.repository.bookspecification;
+package mate.academy.webapp.repository.book.providers;
 
 import java.util.Arrays;
 import mate.academy.webapp.model.Book;
+import mate.academy.webapp.repository.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

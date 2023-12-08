@@ -9,7 +9,7 @@ import mate.academy.webapp.exception.EntityNotFoundException;
 import mate.academy.webapp.mapper.BookMapper;
 import mate.academy.webapp.model.Book;
 import mate.academy.webapp.repository.BookRepository;
-import mate.academy.webapp.repository.BookSpecificationBuilder;
+import mate.academy.webapp.repository.book.builder.BookSpecificationBuilder;
 import mate.academy.webapp.service.BookService;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
