@@ -1,5 +1,7 @@
 package mate.academy.webapp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Book management", description = "Endpoints for managing books")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/books")
@@ -27,32 +29,38 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
+    @Operation(summary = "Get all books")
     public List<BookDto> getAll(Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get book by id")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
     @GetMapping("/search")
+    @Operation(summary = "Get books by authors and price")
     public List<BookDto> searchBooks(BookSearchParametersDto searchParameters, Pageable pageable) {
         return bookService.searchBooks(searchParameters, pageable);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Save book")
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update book")
     public BookDto update(@PathVariable Long id, @RequestBody CreateBookRequestDto requestDto) {
         return bookService.update(id, requestDto);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete book by id")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         bookService.delete(id);
