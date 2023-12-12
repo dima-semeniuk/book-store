@@ -29,38 +29,39 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    @Operation(summary = "Get all books")
+    @Operation(summary = "Get all books", description = "Get list of all existing books.")
     public List<BookDto> getAll(Pageable pageable) {
         return bookService.getAll(pageable);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get book by id")
+    @Operation(summary = "Get book by id", description = "Get book by id")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
     @GetMapping("/search")
-    @Operation(summary = "Get books by authors and price")
+    @Operation(summary = "Get books by authors and price", description = "Get list of books by "
+            + "authors and price range")
     public List<BookDto> searchBooks(BookSearchParametersDto searchParameters, Pageable pageable) {
         return bookService.searchBooks(searchParameters, pageable);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Save book")
+    @Operation(summary = "Create a new book", description = "Create new book")
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update book")
+    @Operation(summary = "Update book", description = "Update book by ID if it exist")
     public BookDto update(@PathVariable Long id, @RequestBody CreateBookRequestDto requestDto) {
         return bookService.update(id, requestDto);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete book by id")
+    @Operation(summary = "Delete book by id", description = "Delete book by ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         bookService.delete(id);
