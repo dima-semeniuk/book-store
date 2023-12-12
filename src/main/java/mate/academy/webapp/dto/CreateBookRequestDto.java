@@ -7,14 +7,17 @@ import lombok.Data;
 
 @Data
 public class CreateBookRequestDto {
-    @NotNull(message = "can't be null.")
+    private static final String NOT_NULL = "can't be null.";
+    private static final String GREATER_THAN_ZERO = "must be greater than 0.";
+
+    @NotNull(message = NOT_NULL)
     private String title;
-    @NotNull(message = "can't be null.")
+    @NotNull(message = NOT_NULL)
     private String author;
-    @NotNull(message = "can't be null.")
+    @NotNull(message = NOT_NULL)
     private String isbn;
-    @NotNull(message = "can't be null.")
-    @Positive
+    @NotNull(message = NOT_NULL)
+    @Positive(message = GREATER_THAN_ZERO)
     private BigDecimal price;
     private String description;
     private String coverImage;
