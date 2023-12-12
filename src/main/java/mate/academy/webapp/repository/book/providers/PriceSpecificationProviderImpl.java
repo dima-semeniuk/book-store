@@ -8,15 +8,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PriceSpecificationProviderImpl implements PriceSpecificationProvider<Book> {
+    private static final String ATTRIBUTE = "price";
+
     public Specification<Book> getSpecification(BigDecimal from, BigDecimal to) {
         return (root, query, criteriaBuilder) -> {
             if (from != null && to != null) {
-                return criteriaBuilder.between(root.get("price"), from, to);
+                return criteriaBuilder.between(root.get(ATTRIBUTE), from, to);
             }
             if (from != null) {
-                return criteriaBuilder.greaterThan(root.get("price"), from);
+                return criteriaBuilder.greaterThan(root.get(ATTRIBUTE), from);
             }
-            return criteriaBuilder.lessThan(root.get("price"), to);
+            return criteriaBuilder.lessThan(root.get(ATTRIBUTE), to);
         };
     }
 }
