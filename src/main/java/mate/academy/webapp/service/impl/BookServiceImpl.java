@@ -2,15 +2,16 @@ package mate.academy.webapp.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.webapp.dto.BookDto;
-import mate.academy.webapp.dto.BookSearchParametersDto;
-import mate.academy.webapp.dto.CreateBookRequestDto;
+import mate.academy.webapp.dto.book.BookDto;
+import mate.academy.webapp.dto.book.BookSearchParametersDto;
+import mate.academy.webapp.dto.book.CreateBookRequestDto;
 import mate.academy.webapp.exception.EntityNotFoundException;
 import mate.academy.webapp.mapper.BookMapper;
 import mate.academy.webapp.model.Book;
 import mate.academy.webapp.repository.BookRepository;
 import mate.academy.webapp.repository.book.builder.BookSpecificationBuilder;
 import mate.academy.webapp.service.BookService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,8 +38,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAll() {
-        return bookRepository.findAll().stream()
+    public List<BookDto> getAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -61,9 +62,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters, Pageable pageable) {
         Specification<Book> bookSpecification = bookSpecificationBuilder.build(searchParameters);
-        return bookRepository.findAll(bookSpecification).stream()
+        return bookRepository.findAll(bookSpecification, pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }

@@ -1,8 +1,8 @@
 package mate.academy.webapp.mapper;
 
 import mate.academy.webapp.config.MapperConfig;
-import mate.academy.webapp.dto.BookDto;
-import mate.academy.webapp.dto.CreateBookRequestDto;
+import mate.academy.webapp.dto.book.BookDto;
+import mate.academy.webapp.dto.book.CreateBookRequestDto;
 import mate.academy.webapp.model.Book;
 import org.mapstruct.Mapper;
 
