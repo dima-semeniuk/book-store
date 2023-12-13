@@ -16,8 +16,8 @@ public class CreateBookRequestDto {
     private String author;
     @NotNull(message = NOT_NULL)
     private String isbn;
-    @NotNull(message = GREATER_THAN_ZERO)
-    @Positive
+    @NotNull(message = NOT_NULL)
+    @Positive(message = GREATER_THAN_ZERO)
     private BigDecimal price;
     private String description;
     private String coverImage;
