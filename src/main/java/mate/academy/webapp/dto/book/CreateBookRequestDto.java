@@ -9,7 +9,6 @@ import lombok.Data;
 public class CreateBookRequestDto {
     private static final String NOT_NULL = "can't be null.";
     private static final String GREATER_THAN_ZERO = "must be greater than 0.";
-
     @NotNull(message = NOT_NULL)
     private String title;
     @NotNull(message = NOT_NULL)
