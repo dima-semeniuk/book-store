@@ -1,7 +1,7 @@
 package mate.academy.webapp.config;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -19,7 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
-
+    @Value("${public.endpoints}")
+    private String[] publicEndpoints;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -33,7 +34,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/auth/**", "/error", "/swagger-ui/**")
+                                .requestMatchers(publicEndpoints)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()

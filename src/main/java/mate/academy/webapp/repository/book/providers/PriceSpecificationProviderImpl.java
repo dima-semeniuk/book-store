@@ -16,9 +16,9 @@ public class PriceSpecificationProviderImpl implements PriceSpecificationProvide
                 return criteriaBuilder.between(root.get(ATTRIBUTE), from, to);
             }
             if (from != null) {
-                return criteriaBuilder.greaterThan(root.get(ATTRIBUTE), from);
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(ATTRIBUTE), from);
             }
-            return criteriaBuilder.lessThan(root.get(ATTRIBUTE), to);
+            return criteriaBuilder.lessThanOrEqualTo(root.get(ATTRIBUTE), to);
         };
     }
 }
