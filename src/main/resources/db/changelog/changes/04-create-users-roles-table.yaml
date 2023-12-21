@@ -20,3 +20,5 @@ databaseChangeLog:
                     foreignKeyName: fk_users_roles_role_id
                     nullable: false
                     references: roles(id)
+                    deleteCascade: true
+                    primaryKey: true
