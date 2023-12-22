@@ -1,4 +1,4 @@
-package mate.academy.webapp.config;
+package mate.academy.webapp.security;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
