@@ -1,8 +1,6 @@
 package mate.academy.webapp.service.impl;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.webapp.dto.book.BookResponseDto;
 import mate.academy.webapp.dto.book.BookSearchParametersDto;
@@ -30,12 +28,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookResponseDto save(CreateBookRequestDto requestDto) {
-        Set<Category> categorySet = requestDto.getCategories().stream()
-                .map(id -> categoryRepository.findById(id).orElseThrow(
-                        () -> new EntityNotFoundException("Category with id " + id + " not found")))
-                .collect(Collectors.toSet());
+        List<Category> categories = categoryRepository
+                .findAllById(requestDto.getCategories());
+        if (categories.isEmpty()) {
+            throw new EntityNotFoundException("No categories with id "
+                    + requestDto.getCategories());
+        }
         Book book = bookMapper.toModel(requestDto);
-        book.getCategories().addAll(categorySet);
+        book.getCategories().addAll(categories);
         Book savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
     }
@@ -61,8 +61,15 @@ public class BookServiceImpl implements BookService {
         bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Can't find and update book by id: " + id)
         );
+        List<Category> categories = categoryRepository
+                .findAllById(requestDto.getCategories());
+        if (categories.isEmpty()) {
+            throw new EntityNotFoundException("No categories with id "
+                    + requestDto.getCategories());
+        }
         Book book = bookMapper.toModel(requestDto);
         book.setId(id);
+        book.getCategories().addAll(categories);
         bookRepository.save(book);
         return bookMapper.toDto(book);
     }
