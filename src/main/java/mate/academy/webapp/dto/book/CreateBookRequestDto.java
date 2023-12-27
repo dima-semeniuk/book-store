@@ -3,6 +3,7 @@ package mate.academy.webapp.dto.book;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.Set;
 import lombok.Data;
 
 @Data
@@ -18,6 +19,8 @@ public class CreateBookRequestDto {
     @NotNull(message = NOT_NULL)
     @Positive(message = GREATER_THAN_ZERO)
     private BigDecimal price;
+    @NotNull(message = NOT_NULL)
+    private Set<Long> categories;
     private String description;
     private String coverImage;
 }
