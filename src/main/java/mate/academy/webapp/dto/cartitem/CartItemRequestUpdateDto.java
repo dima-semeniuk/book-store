@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class CartItemRequestUpdateDto {
-    @Positive
+    @Positive(message = "must be greater than 0.")
     private Integer quantity;
 }

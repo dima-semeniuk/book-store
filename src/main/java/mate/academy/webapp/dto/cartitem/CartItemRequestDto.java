@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class CartItemRequestDto {
-    @NotNull
+    @NotNull(message = "can't be empty.")
     private Long bookId;
-    @Positive
+    @Positive(message = "must be greater than 0.")
     private Integer quantity;
 }

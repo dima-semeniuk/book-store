@@ -6,10 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.webapp.dto.cartitem.CartItemRequestDto;
 import mate.academy.webapp.dto.cartitem.CartItemRequestUpdateDto;
-import mate.academy.webapp.dto.cartitem.CartItemResponseDto;
 import mate.academy.webapp.dto.shoppingcart.ShoppingCartResponseDto;
 import mate.academy.webapp.model.User;
-import mate.academy.webapp.service.CartItemService;
 import mate.academy.webapp.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,16 +28,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/cart")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
-    private final CartItemService cartItemService;
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new category", description = "Create new category")
-    public void addBookToShoppingCart(Authentication authentication,
+    public ShoppingCartResponseDto addBookToShoppingCart(Authentication authentication,
                                       @RequestBody @Valid CartItemRequestDto requestDto) {
         User user = (User) authentication.getPrincipal();
-        shoppingCartService.addBookToShoppingCart(requestDto, user.getId());
+        return shoppingCartService.addBookToShoppingCart(requestDto, user.getId());
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -54,7 +51,7 @@ public class ShoppingCartController {
     @PutMapping("/cart-items/{id}")
     @Operation(summary = "Update book's quantity by cart item ID",
             description = "Update book's quantity by cart item ID")
-    public CartItemResponseDto updateQuantityOfBooksInShoppingCart(
+    public ShoppingCartResponseDto updateQuantityOfBooksInShoppingCart(
             Authentication authentication, @PathVariable Long id,
             @RequestBody @Valid CartItemRequestUpdateDto requestUpdateDto) {
         User user = (User) authentication.getPrincipal();
