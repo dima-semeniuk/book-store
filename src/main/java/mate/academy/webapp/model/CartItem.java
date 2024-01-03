@@ -37,7 +37,7 @@ public class CartItem {
     private Book book;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private int quantity;
 
     @Column(nullable = false)
     private boolean isDeleted = false;
