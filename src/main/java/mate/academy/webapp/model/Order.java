@@ -15,6 +15,7 @@ import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -43,6 +44,7 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal total;
 
+    @CreationTimestamp
     @Column(name = "order_date", nullable = false)
     private LocalDateTime orderDate;
 
