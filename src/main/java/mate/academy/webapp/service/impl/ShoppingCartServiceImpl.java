@@ -1,7 +1,7 @@
 package mate.academy.webapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mate.academy.webapp.dto.cartitem.CartItemRequestDto;
+import mate.academy.webapp.dto.cartitem.CartItemRequestCreateDto;
 import mate.academy.webapp.dto.cartitem.CartItemRequestUpdateDto;
 import mate.academy.webapp.dto.shoppingcart.ShoppingCartResponseDto;
 import mate.academy.webapp.exception.EntityNotFoundException;
@@ -25,7 +25,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartMapper shoppingCartMapper;
 
     @Override
-    public ShoppingCartResponseDto addBookToShoppingCart(CartItemRequestDto requestDto,
+    public ShoppingCartResponseDto addBookToShoppingCart(CartItemRequestCreateDto requestDto,
                                                          Long userId) {
         ShoppingCart shoppingCart = findByUserId(userId);
         CartItem cartItem = cartItemMapper.toModel(requestDto);

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mate.academy.webapp.dto.cartitem.CartItemRequestDto;
+import mate.academy.webapp.dto.cartitem.CartItemRequestCreateDto;
 import mate.academy.webapp.dto.cartitem.CartItemRequestUpdateDto;
 import mate.academy.webapp.dto.shoppingcart.ShoppingCartResponseDto;
 import mate.academy.webapp.model.User;
@@ -32,9 +32,9 @@ public class ShoppingCartController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Create a new category", description = "Create new category")
+    @Operation(summary = "Add book to shopping cart", description = "Add book to shopping cart")
     public ShoppingCartResponseDto addBookToShoppingCart(Authentication authentication,
-                                      @RequestBody @Valid CartItemRequestDto requestDto) {
+                                      @RequestBody @Valid CartItemRequestCreateDto requestDto) {
         User user = (User) authentication.getPrincipal();
         return shoppingCartService.addBookToShoppingCart(requestDto, user.getId());
     }

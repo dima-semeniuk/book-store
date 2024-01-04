@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
-public class CartItemRequestDto {
+public class CartItemRequestCreateDto {
     @NotNull(message = "can't be empty.")
     private Long bookId;
     @Positive(message = "must be greater than 0.")
