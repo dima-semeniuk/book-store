@@ -9,7 +9,7 @@ import mate.academy.webapp.model.User;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
-    List<OrderResponseDto> getAll(User user, Pageable pageable);
+    List<OrderResponseDto> getAll(Long userId, Pageable pageable);
 
     OrderResponseDto updateOrderStatus(Long id, OrderRequestUpdateDto requestDto);
 
