@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
 @Sql(scripts = {"classpath:database/books/add-books-to-book-table.sql",
         "classpath:database/categories/add-categories-to-categories-table.sql",
@@ -62,7 +63,7 @@ public class ShoppingCartControllerTest {
     private static CartItemResponseDto itemResponseDto;
     private static CartItemResponseDto itemResponseDtoSecond;
     private static CartItemResponseDto itemResponseDtoThird;
-    private static ShoppingCartResponseDto responseDto;
+    private static ShoppingCartResponseDto shoppingCartResponseDto;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -110,13 +111,14 @@ public class ShoppingCartControllerTest {
                 .setBookId(1L)
                 .setBookTitle("History")
                 .setQuantity(3);
+
         itemResponseDtoThird = new CartItemResponseDto()
                 .setId(2L)
                 .setBookId(2L)
                 .setBookTitle("About fishing")
                 .setQuantity(2);
 
-        responseDto = new ShoppingCartResponseDto()
+        shoppingCartResponseDto = new ShoppingCartResponseDto()
                 .setId(1L)
                 .setUserId(2L)
                 .setCartItems(Set.of(itemResponseDto, itemResponseDtoSecond, itemResponseDtoThird));
@@ -134,7 +136,6 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Add book to shopping cart")
     void addBookToShoppingCart_ValidRequestDto_Success() throws Exception {
-
         String jsonRequest = objectMapper.writeValueAsString(itemRequestDto);
 
         MvcResult result = mockMvc.perform(
@@ -150,14 +151,14 @@ public class ShoppingCartControllerTest {
 
         assertNotNull(actual);
         assertNotNull(actual.getId());
-        assertEquals(responseDto.getCartItems().size(), actual.getCartItems().size());
+        assertEquals(shoppingCartResponseDto.getCartItems().size(), actual.getCartItems().size());
+        EqualsBuilder.reflectionEquals(shoppingCartResponseDto, actual, "id");
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
     @DisplayName("Add book to shopping cart, empty book")
     void addBookToShoppingCart_NotValidRequestDto_BadRequest() throws Exception {
-
         String jsonRequest = objectMapper.writeValueAsString(emptyBookItemRequestDto);
 
         MvcResult result = mockMvc.perform(
@@ -173,7 +174,6 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Get user shopping cart with cart items")
     void getShoppingCart_Success() throws Exception {
-
         MvcResult result = mockMvc.perform(
                         get("/cart"))
                 .andExpect(status().isOk())
@@ -186,7 +186,7 @@ public class ShoppingCartControllerTest {
         assertEquals(CART_ITEMS_COUNT, actual.getCartItems().size());
     }
 
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "user", roles = {"USER"})
     @Test
     @DisplayName("Update quantity of books  by cart item id")
     void updateQuantityOfBooksInShoppingCart_ValidRequestDto_Success() throws Exception {
@@ -210,7 +210,7 @@ public class ShoppingCartControllerTest {
         assertEquals(updateItemRequestDto.getQuantity(), actualUpdatedQuantity);
     }
 
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "user", roles = {"USER"})
     @Test
     @DisplayName("Update quantity by not existing cart item id")
     void updateQuantityOfBooksInShoppingCart_NotExistingId_NotFound() throws Exception {

@@ -3,6 +3,7 @@ package mate.academy.webapp.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -28,7 +29,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -131,14 +131,14 @@ public class ShoppingCartServiceTest {
     @Test
     @DisplayName("Add book to shopping cart")
     public void addBookToShoppingCart_ValidItemRequestCreateDto_ReturnShoppingCartResponseDto() {
-        Mockito.when(shoppingCartRepository.findByUserId(user.getId()))
+        when(shoppingCartRepository.findByUserId(user.getId()))
                 .thenReturn(Optional.of(shoppingCart));
-        Mockito.when(cartItemMapper.toModel(itemRequestDto)).thenReturn(cartItem);
-        Mockito.when(cartItemRepository.save(cartItem)).thenReturn(savedCartItem);
-        Mockito.when(shoppingCartRepository
+        when(cartItemMapper.toModel(itemRequestDto)).thenReturn(cartItem);
+        when(cartItemRepository.save(cartItem)).thenReturn(savedCartItem);
+        when(shoppingCartRepository
                 .findShoppingCartWithCartItemsAndBooksByUserId(user.getId()))
                         .thenReturn(Optional.of(shoppingCartWithItems));
-        Mockito.when(shoppingCartMapper.toDto(shoppingCartWithItems)).thenReturn(responseDto);
+        when(shoppingCartMapper.toDto(shoppingCartWithItems)).thenReturn(responseDto);
 
         ShoppingCartResponseDto actual = shoppingCartService
                 .addBookToShoppingCart(itemRequestDto, user.getId());
@@ -149,10 +149,10 @@ public class ShoppingCartServiceTest {
     @Test
     @DisplayName("Get user shopping cart with cart items")
     public void getShoppingCartDto_ExistingId_ReturnShoppingCartResponseDto() {
-        Mockito.when(shoppingCartRepository.findShoppingCartWithCartItemsAndBooksByUserId(
+        when(shoppingCartRepository.findShoppingCartWithCartItemsAndBooksByUserId(
                 user.getId()))
                 .thenReturn(Optional.of(shoppingCartWithItems));
-        Mockito.when(shoppingCartMapper.toDto(shoppingCartWithItems)).thenReturn(responseDto);
+        when(shoppingCartMapper.toDto(shoppingCartWithItems)).thenReturn(responseDto);
 
         ShoppingCartResponseDto actual = shoppingCartService.getShoppingCartDto(user.getId());
         assertEquals(responseDto, actual);
@@ -161,13 +161,13 @@ public class ShoppingCartServiceTest {
     @Test
     @DisplayName("Update quantity of books in shopping cart")
     public void updateQuantityOfBooksInShoppingCart_ValidRequestDto_ReturnCartResponseDto() {
-        Mockito.when(shoppingCartRepository.findByUserId(user.getId()))
+        when(shoppingCartRepository.findByUserId(user.getId()))
                 .thenReturn(Optional.of(shoppingCart));
-        Mockito.when(cartItemRepository.findByIdAndShoppingCartId(savedCartItem.getId(),
+        when(cartItemRepository.findByIdAndShoppingCartId(savedCartItem.getId(),
                         shoppingCart.getId())).thenReturn(Optional.of(savedCartItem));
-        Mockito.when(cartItemRepository.save(savedCartItem))
+        when(cartItemRepository.save(savedCartItem))
                 .thenReturn(savedCartItem.setQuantity(updateItemRequestDto.getQuantity()));
-        Mockito.when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(updatedResponseDto);
+        when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(updatedResponseDto);
 
         ShoppingCartResponseDto actual = shoppingCartService
                 .updateQuantityOfBooksInShoppingCart(user.getId(), savedCartItem.getId(),
@@ -178,9 +178,9 @@ public class ShoppingCartServiceTest {
     @Test
     @DisplayName("Update quantity of book, not existing cart item id")
     public void updateQuantityOfBooks_NotExistCartItemId_EntityNotFoundExceptionExpected() {
-        Mockito.when(shoppingCartRepository.findByUserId(user.getId()))
+        when(shoppingCartRepository.findByUserId(user.getId()))
                 .thenReturn(Optional.of(shoppingCart));
-        Mockito.when(cartItemRepository.findByIdAndShoppingCartId(NOT_EXISTING_CART_ITEM_ID,
+        when(cartItemRepository.findByIdAndShoppingCartId(NOT_EXISTING_CART_ITEM_ID,
                 shoppingCart.getId())).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(
