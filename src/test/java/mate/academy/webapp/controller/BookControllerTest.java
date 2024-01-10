@@ -123,7 +123,6 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get book by existing id")
     void getBookById_ExistingId_Success() throws Exception {
-
         MvcResult result = mockMvc.perform(
                         get("/books/{id}", INDEX_OF_EXISTING_BOOK))
                 .andExpect(status().isOk())
@@ -140,7 +139,6 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get book by not existing id")
     void getBookById_NotExistingId_NotFound() throws Exception {
-
         MvcResult result = mockMvc.perform(
                         get("/books/{id}", INDEX_OF_NOT_EXISTING_BOOK))
                 .andExpect(status().isNotFound())
@@ -151,7 +149,6 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get all books")
     void getAll_Success() throws Exception {
-
         MvcResult result = mockMvc.perform(
                         get("/books"))
                 .andExpect(status().isOk())
@@ -167,7 +164,6 @@ public class BookControllerTest {
     @Test
     @DisplayName("Search book by authors and price")
     void searchBooks_SearchParamOk_Success() throws Exception {
-
         MvcResult result = mockMvc.perform(
                         get("/books/search")
                         .param("authors", searchRequestDto.authors())
@@ -187,7 +183,6 @@ public class BookControllerTest {
     @Test
     @DisplayName("Create a new book, empty author")
     void createBook_NotValidRequestDto_BadRequest() throws Exception {
-
         String jsonRequest = objectMapper.writeValueAsString(emptyAuthorBookRequestDto);
 
         MvcResult result = mockMvc.perform(
@@ -203,7 +198,6 @@ public class BookControllerTest {
     @Test
     @DisplayName("Create a new book")
     void createBook_ValidRequestDto_Success() throws Exception {
-
         String jsonRequest = objectMapper.writeValueAsString(requestDto);
 
         MvcResult result = mockMvc.perform(
