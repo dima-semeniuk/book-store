@@ -2,6 +2,7 @@ package mate.academy.webapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -23,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -130,11 +130,11 @@ public class BookServiceTest {
     @Test
     @DisplayName("Save book to DataBase")
     public void save_ValidCreateBookRequestDto_ReturnBookResponseDto() {
-        Mockito.when(bookRepository.save(book)).thenReturn(savedBook);
-        Mockito.when(categoryRepository.findAllById(requestDto.getCategories()))
+        when(bookRepository.save(book)).thenReturn(savedBook);
+        when(categoryRepository.findAllById(requestDto.getCategories()))
                 .thenReturn(List.of(category));
-        Mockito.when(bookMapper.toModel(requestDto)).thenReturn(book);
-        Mockito.when(bookMapper.toDto(savedBook)).thenReturn(responseDto);
+        when(bookMapper.toModel(requestDto)).thenReturn(book);
+        when(bookMapper.toDto(savedBook)).thenReturn(responseDto);
 
         BookResponseDto actual = bookService.save(requestDto);
         assertEquals(responseDto, actual);
@@ -143,7 +143,7 @@ public class BookServiceTest {
     @Test
     @DisplayName("Save book to with not existing category id")
     public void save_NotExistingCategoryId_EntityNotFoundExceptionExpected() {
-        Mockito.when(categoryRepository.findAllById(
+        when(categoryRepository.findAllById(
                 requestDtoWithNotExistingCategoryId.getCategories()))
                 .thenReturn(Collections.emptyList());
 
@@ -160,8 +160,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("Find book by id")
     public void findById_ExistingId_ReturnBookResponseDto() {
-        Mockito.when(bookRepository.findById(EXISTING_ID)).thenReturn(Optional.of(savedBook));
-        Mockito.when(bookMapper.toDto(savedBook)).thenReturn(responseDto);
+        when(bookRepository.findById(EXISTING_ID)).thenReturn(Optional.of(savedBook));
+        when(bookMapper.toDto(savedBook)).thenReturn(responseDto);
 
         BookResponseDto actual = bookService.findById(EXISTING_ID);
         assertEquals(responseDto, actual);
@@ -170,7 +170,7 @@ public class BookServiceTest {
     @Test
     @DisplayName("Find book by not existing id")
     public void findById_NotExistingId_EntityNotFoundExceptionExpected() {
-        Mockito.when(bookRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
+        when(bookRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(
                 EntityNotFoundException.class,
@@ -185,9 +185,9 @@ public class BookServiceTest {
     @DisplayName("Get all books")
     public void getAll_OneBook_ReturnListOfBookResponseDto() {
         PageRequest pageRequest = PageRequest.of(0,20);
-        Mockito.when(bookRepository.findAll(pageRequest))
+        when(bookRepository.findAll(pageRequest))
                 .thenReturn(new PageImpl<>(List.of(savedBook)));
-        Mockito.when(bookMapper.toDto(savedBook)).thenReturn(responseDto);
+        when(bookMapper.toDto(savedBook)).thenReturn(responseDto);
 
         List<BookResponseDto> expected = List.of(responseDto);
         List<BookResponseDto> actual = bookService.getAll(pageRequest);
@@ -198,12 +198,12 @@ public class BookServiceTest {
     @Test
     @DisplayName("Update book to by id")
     public void updateById_ExistingId_ReturnBookResponseDto() {
-        Mockito.when(bookRepository.findById(EXISTING_ID)).thenReturn(Optional.of(savedBook));
-        Mockito.when(categoryRepository.findAllById(updateRequestDto.getCategories()))
+        when(bookRepository.findById(EXISTING_ID)).thenReturn(Optional.of(savedBook));
+        when(categoryRepository.findAllById(updateRequestDto.getCategories()))
                 .thenReturn(List.of(category));
-        Mockito.when(bookRepository.save(bookBeforeUpdate)).thenReturn(updatedBook);
-        Mockito.when(bookMapper.toModel(updateRequestDto)).thenReturn(bookBeforeUpdate);
-        Mockito.when(bookMapper.toDto(updatedBook)).thenReturn(updatedResponseDto);
+        when(bookRepository.save(bookBeforeUpdate)).thenReturn(updatedBook);
+        when(bookMapper.toModel(updateRequestDto)).thenReturn(bookBeforeUpdate);
+        when(bookMapper.toDto(updatedBook)).thenReturn(updatedResponseDto);
 
         BookResponseDto actual = bookService.updateById(EXISTING_ID, updateRequestDto);
         assertEquals(updatedResponseDto, actual);
@@ -212,7 +212,7 @@ public class BookServiceTest {
     @Test
     @DisplayName("Update book to by not existing id")
     public void updateById_NotExistingId_EntityNotFoundExceptionExpected() {
-        Mockito.when(bookRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
+        when(bookRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(
                 EntityNotFoundException.class,
@@ -226,8 +226,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("Update book to by not existing category id")
     public void updateById_NotValidUpdateRequestDto_EntityNotFoundExceptionExpected() {
-        Mockito.when(bookRepository.findById(EXISTING_ID)).thenReturn(Optional.of(savedBook));
-        Mockito.when(categoryRepository.findAllById(
+        when(bookRepository.findById(EXISTING_ID)).thenReturn(Optional.of(savedBook));
+        when(categoryRepository.findAllById(
                 requestDtoWithNotExistingCategoryId.getCategories()))
                 .thenReturn(Collections.emptyList());
 

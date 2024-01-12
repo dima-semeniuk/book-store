@@ -2,6 +2,7 @@ package mate.academy.webapp.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -24,7 +25,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -118,9 +118,9 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Save category to DataBase")
     public void save_ValidCreateCategoryRequestDto_ReturnCategoryResponseDto() {
-        Mockito.when(categoryRepository.save(category)).thenReturn(savedCategory);
-        Mockito.when(categoryMapper.toModel(requestDto)).thenReturn(category);
-        Mockito.when(categoryMapper.toDto(savedCategory)).thenReturn(responseDto);
+        when(categoryRepository.save(category)).thenReturn(savedCategory);
+        when(categoryMapper.toModel(requestDto)).thenReturn(category);
+        when(categoryMapper.toDto(savedCategory)).thenReturn(responseDto);
 
         CategoryResponseDto actual = categoryService.save(requestDto);
         assertEquals(responseDto, actual);
@@ -129,9 +129,9 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Find category by id")
     public void findById_ExistingId_ReturnCategoryResponseDto() {
-        Mockito.when(categoryRepository.findById(EXISTING_ID))
+        when(categoryRepository.findById(EXISTING_ID))
                 .thenReturn(Optional.of(savedCategory));
-        Mockito.when(categoryMapper.toDto(savedCategory)).thenReturn(responseDto);
+        when(categoryMapper.toDto(savedCategory)).thenReturn(responseDto);
 
         CategoryResponseDto actual = categoryService.findById(EXISTING_ID);
         assertEquals(responseDto, actual);
@@ -140,7 +140,7 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Find category by not existing id")
     public void findById_NotExistingId_EntityNotFoundExceptionExpected() {
-        Mockito.when(categoryRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
+        when(categoryRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(
                 EntityNotFoundException.class,
@@ -155,9 +155,9 @@ public class CategoryServiceTest {
     @DisplayName("Get all categories")
     public void getAll_OneCategory_ReturnListOfBookResponseDto() {
         PageRequest pageRequest = PageRequest.of(0,20);
-        Mockito.when(categoryRepository.findAll(pageRequest))
+        when(categoryRepository.findAll(pageRequest))
                 .thenReturn(new PageImpl<>(List.of(savedCategory)));
-        Mockito.when(categoryMapper.toDto(savedCategory)).thenReturn(responseDto);
+        when(categoryMapper.toDto(savedCategory)).thenReturn(responseDto);
 
         List<CategoryResponseDto> expected = List.of(responseDto);
         List<CategoryResponseDto> actual = categoryService.getAll(pageRequest);
@@ -168,11 +168,11 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Update category to by id")
     public void updateById_ExistingId_ReturnCategoryResponseDto() {
-        Mockito.when(categoryRepository.findById(EXISTING_ID))
+        when(categoryRepository.findById(EXISTING_ID))
                 .thenReturn(Optional.of(savedCategory));
-        Mockito.when(categoryRepository.save(categoryBeforeUpdating)).thenReturn(updatedCategory);
-        Mockito.when(categoryMapper.toModel(updateRequestDto)).thenReturn(categoryBeforeUpdating);
-        Mockito.when(categoryMapper.toDto(updatedCategory)).thenReturn(updatedResponseDto);
+        when(categoryRepository.save(categoryBeforeUpdating)).thenReturn(updatedCategory);
+        when(categoryMapper.toModel(updateRequestDto)).thenReturn(categoryBeforeUpdating);
+        when(categoryMapper.toDto(updatedCategory)).thenReturn(updatedResponseDto);
 
         CategoryResponseDto actual = categoryService.updateById(EXISTING_ID, updateRequestDto);
         assertEquals(updatedResponseDto, actual);
@@ -181,7 +181,7 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Update category by not existing id")
     public void updateById_NotExistingId_EntityNotFoundExceptionExpected() {
-        Mockito.when(categoryRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
+        when(categoryRepository.findById(NOT_EXISTING_ID)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(
                 EntityNotFoundException.class,
@@ -196,8 +196,8 @@ public class CategoryServiceTest {
     @DisplayName("Get all books by category id")
     public void findAllByCategoryId_ExistingId_ReturnListOfBookResponseDto() {
         PageRequest pageRequest = PageRequest.of(0,20);
-        Mockito.when(bookRepository.findAllByCategoryId(EXISTING_ID)).thenReturn(List.of(book));
-        Mockito.when(bookMapper.toDtoWithoutCategories(book)).thenReturn(bookDtoWithoutCategoryIds);
+        when(bookRepository.findAllByCategoryId(EXISTING_ID)).thenReturn(List.of(book));
+        when(bookMapper.toDtoWithoutCategories(book)).thenReturn(bookDtoWithoutCategoryIds);
 
         List<BookDtoWithoutCategoryIds> expected = List.of(bookDtoWithoutCategoryIds);
         List<BookDtoWithoutCategoryIds> actual = categoryService
