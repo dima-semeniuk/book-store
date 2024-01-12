@@ -428,7 +428,4 @@ And you should use endpoints what are describe above 💻
 In the future, I would like to add the ability to leave reviews from users about the purchased book.
 Also implement a general block of reviews about the store and the level of service 
 
-
-
-
-
+<hr>
