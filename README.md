@@ -411,4 +411,24 @@ In the final stage of the project, there were difficulties with writing tests,
 because I met SpringBoot testing for the first time and testing different layers
 of the program required different approaches. But this was also overcome 🤟
 
+<hr>
+
+## How you can use the project
+
+The project is a server part and is able to receive requests from clients (browsers), 
+process them and return the response. 
+Postman will also be very useful for testing the application and see ho it works. 
+All what you need is set up file .env with your database username, password, database name, locals and dockers ports.
+And you should use endpoints what are describe above 💻
+
+<hr>
+
+## Possible improvements
+
+In the future, I would like to add the ability to leave reviews from users about the purchased book.
+Also implement a general block of reviews about the store and the level of service 
+
+
+
+
 
