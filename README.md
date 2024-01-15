@@ -401,6 +401,17 @@ This endpoint is for ADMIN, to update order status.
 
 <hr>
 
+## How you can use the project
+
+The project is a server part and is able to receive requests from clients (browsers),
+process them and return the response.
+Postman will also be very useful for testing the application and see how it works.
+[Here](https://web.postman.co/workspace/My-Workspace~035da531-3317-4bf8-8513-44523d11ce92/collection/31723723-18632cf5-a6f1-41db-b138-537c4c1ed521) you can see a collection of requests from Postman.
+All what you need is set up file .env with your database username, password, database name, locals and dockers ports.
+And you should use endpoints what are describe above. Also, the project uses a Docker and before running project don't forget run Docker on your machine 💻
+
+<hr>
+
 ## Short about the difficulties on the way to implementation
 
 The first difficulties were with understanding the project architecture,
@@ -410,16 +421,6 @@ its syntax, but again, a little research and time paid off.
 In the final stage of the project, there were difficulties with writing tests,
 because I met SpringBoot testing for the first time and testing different layers
 of the program required different approaches. But this was also overcome 🤟
-
-<hr>
-
-## How you can use the project
-
-The project is a server part and is able to receive requests from clients (browsers), 
-process them and return the response. 
-Postman will also be very useful for testing the application and see ho it works. 
-All what you need is set up file .env with your database username, password, database name, locals and dockers ports.
-And you should use endpoints what are describe above 💻
 
 <hr>
 
