@@ -406,7 +406,7 @@ This endpoint is for ADMIN, to update order status.
 The project is a server part and is able to receive requests from clients (browsers),
 process them and return the response.
 Postman will also be very useful for testing the application and see how it works. 
-You can [download](https://github.com/) the Postman collection and import it into your Postman, then enjoy testing the application.
+You can [download](https://github.com/dima-semeniuk/book-store/blob/bugfix/postman/BookStoreApp.postman_collection.json) the Postman collection and import it into your Postman, then enjoy testing the application.
 All what you need is set up file .env with your database username, password, database name, locals and dockers ports.
 And you should use endpoints what are describe above. Also, the project uses a Docker and before running project don't forget run Docker on your machine 💻
 
