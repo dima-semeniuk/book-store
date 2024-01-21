@@ -22,6 +22,7 @@ import mate.academy.webapp.model.ShoppingCart;
 import mate.academy.webapp.model.User;
 import mate.academy.webapp.repository.CartItemRepository;
 import mate.academy.webapp.repository.ShoppingCartRepository;
+import mate.academy.webapp.repository.book.BookRepository;
 import mate.academy.webapp.service.impl.ShoppingCartServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -52,6 +53,9 @@ public class ShoppingCartServiceTest {
 
     @Mock
     private CartItemRepository cartItemRepository;
+
+    @Mock
+    private BookRepository bookRepository;
 
     @Mock
     private ShoppingCartMapper shoppingCartMapper;
@@ -131,6 +135,7 @@ public class ShoppingCartServiceTest {
     @Test
     @DisplayName("Add book to shopping cart")
     public void addBookToShoppingCart_ValidItemRequestCreateDto_ReturnShoppingCartResponseDto() {
+        when(bookRepository.findById(itemRequestDto.getBookId())).thenReturn(Optional.of(book));
         when(shoppingCartRepository.findByUserId(user.getId()))
                 .thenReturn(Optional.of(shoppingCart));
         when(cartItemMapper.toModel(itemRequestDto)).thenReturn(cartItem);

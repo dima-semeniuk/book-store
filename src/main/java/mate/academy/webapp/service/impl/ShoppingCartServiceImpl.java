@@ -12,6 +12,7 @@ import mate.academy.webapp.model.ShoppingCart;
 import mate.academy.webapp.model.User;
 import mate.academy.webapp.repository.CartItemRepository;
 import mate.academy.webapp.repository.ShoppingCartRepository;
+import mate.academy.webapp.repository.book.BookRepository;
 import mate.academy.webapp.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +24,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemRepository cartItemRepository;
     private final CartItemMapper cartItemMapper;
     private final ShoppingCartMapper shoppingCartMapper;
+    private final BookRepository bookRepository;
 
     @Override
     public ShoppingCartResponseDto addBookToShoppingCart(CartItemRequestCreateDto requestDto,
                                                          Long userId) {
-        ShoppingCart shoppingCart = findByUserId(userId);
+        bookRepository.findById(requestDto.getBookId()).orElseThrow(
+                () -> new EntityNotFoundException("Can't find book by id: "
+                        + requestDto.getBookId())
+        );
         CartItem cartItem = cartItemMapper.toModel(requestDto);
+        ShoppingCart shoppingCart = findByUserId(userId);
         cartItem.setShoppingCart(shoppingCart);
         cartItemRepository.save(cartItem);
         shoppingCart = findShoppingCartWithCartItemsAndBooksByUserId(userId);
